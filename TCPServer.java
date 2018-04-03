@@ -20,7 +20,7 @@ public class TCPServer
       String receiveMessage, sendMessage;               
       while(true)
       {
-        if((receiveMessage = receiveRead.readLine()) != null)  
+        if((receiveMessage = receiveRead.readLine()) != "bye")  
         {
            System.out.println(receiveMessage);         
         }         
