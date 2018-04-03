@@ -1,19 +1,34 @@
 import java.io.*;
 import java.net.*;
-
-class TCPClient {
- public static void main(String args[]) throws Exception {
-  String sentence;
-  String modifiedSentence;
-  BufferedReader inFromUser = new BufferedReader(new InputStreamReader(System.in));
-  Socket clientSocket = new Socket("localhost", 6789);
-  DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-  BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-  sentence = inFromUser.readLine();
-  outToServer.writeBytes(sentence + '\n');
-  modifiedSentence = inFromServer.readLine();
-  System.out.println("FROM SERVER: " + modifiedSentence);
-  if(sentence.equals("bye"){
-  clientSocket.close();}
- }
-}
+public class TCPClient
+{
+  public static void main(String[] args) throws Exception
+  {
+     Socket sock = new Socket("127.0.0.1", 3000);
+                               // reading from keyboard (keyRead object)
+     BufferedReader keyRead = new BufferedReader(new InputStreamReader(System.in));
+                              // sending to client (pwrite object)
+     OutputStream ostream = sock.getOutputStream(); 
+     PrintWriter pwrite = new PrintWriter(ostream, true);
+ 
+                              // receiving from server ( receiveRead  object)
+     InputStream istream = sock.getInputStream();
+     BufferedReader receiveRead = new BufferedReader(new InputStreamReader(istream));
+ 
+     String receiveMessage, sendMessage;  
+     boolean flag=true;             
+     while(flag)
+     {
+        sendMessage = keyRead.readLine();  // keyboard reading
+        pwrite.println(sendMessage);       // sending to server
+        pwrite.flush();                    // flush the data
+        if((receiveMessage = receiveRead.readLine()) != null) //receive from server
+        {
+            System.out.println(receiveMessage); // displaying at DOS prompt
+        } 
+        if(sendMessage.equals("bye"))   
+        flag=false;     
+      }  
+      sock.close();             
+    }                    
+}                    
