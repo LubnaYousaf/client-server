@@ -21,14 +21,17 @@ public class TCPClient
      {
         sendMessage = keyRead.readLine();  // keyboard reading
         pwrite.println(sendMessage);       // sending to server
-        pwrite.flush();                    // flush the data
+        if(sendMessage.equals("bye"))  { 
+        flag=false;
+        pwrite.flush(); 
+         sock.close();}
+         else{                   // flush the data
         if((receiveMessage = receiveRead.readLine()) != null) //receive from server
         {
             System.out.println(receiveMessage); // displaying at DOS prompt
         } 
-        if(sendMessage.equals("bye"))   
-        flag=false;     
+          
       }  
-      sock.close();             
-    }                    
-}                    
+                 
+    }    
+    }  
